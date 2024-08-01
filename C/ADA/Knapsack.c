@@ -42,3 +42,17 @@ int main(){
     greedy(n,m,p,w);
     return 0;
 }
+// Output:
+// Enter number of objects
+// 4
+// Enter knapsack capacity
+// 50
+// Enter profit of each object
+// 60 100 120 40
+// Enter weight of each object
+// 10 20 30 40
+// object 3 is selected with fraction
+// object 2 is selected with fraction
+// object 1 is selected with fraction
+// Discrete knapsack problem 280.000000
+// Continuos knapsack profit by including 1 item with fraction 0.50=300.000000

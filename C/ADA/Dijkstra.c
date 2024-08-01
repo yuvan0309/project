@@ -48,3 +48,20 @@ int main(){
     }
     return 0;
 }
+// Output:
+// Enter number of vertices
+// 5
+// Enter cost matrix
+// 0 10 999 999 999
+// 999 0 999 999 5
+// 999 999 0 3 999
+// 999 999 999 0 1
+// 999 999 999 999 0
+// Enter source vertex
+// 0
+// Shortest path from source vertex 0
+// 0 to 0 = 0
+// 0 to 1 = 10
+// 0 to 2 = 13
+// 0 to 3 = 16
+// 0 to 4 = 6

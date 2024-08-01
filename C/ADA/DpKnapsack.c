@@ -49,3 +49,17 @@ int main(){
     dpknapsack(n,m,p,w);
     return 0;
 }
+// Output:
+// Enter number of objects
+// 4
+// Enter knapsack capacity
+// 50
+// Enter profit of each object
+// 60 100 120 40
+// Enter weight of each object
+// 10 20 30 40
+//OPTIMAL PROFIT IS 220
+//SELECTED OBJECTS ARE
+//2
+//3
+//4

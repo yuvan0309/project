@@ -44,3 +44,17 @@ void main(){
     scanf("%d",&n);
     printf("\n The no.of possibilites are %d",nqueens(n));
 }
+// // Output:
+// // Enter the size of chessboard:
+// // 4
+// // Solution 1
+// // XQXX
+// // XXQX
+// // QXXX
+// // XXXQ
+// // Solution 2
+// // XXQX
+// // QXXX
+// // XXXQ
+// // XQXX
+// // The no.of possibilites are 2

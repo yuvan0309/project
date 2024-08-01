@@ -38,3 +38,22 @@ int main(){
         subset(0,0,sum);
     return 0;
 }
+// Output:
+// Enter number of elements
+// 5
+// Enter the elements
+// 2 5 8 4 6
+// Enter the required sum
+// 9
+// Subset 1
+// 2 4
+// Subset 2
+// 5 4
+// Subset 3
+// 8 1
+// Subset 4
+// 6 3
+// Subset 5
+// 2 5 1
+// Subset 6
+// 2 6 1

@@ -1,0 +1,16 @@
+**/*.exe
+**/*.class
+data/
+ardrino/libraries/*
+.vscode
+txt/
+**/*.mp3
+**/*.mp4
+**/*.out
+C/train
+tailwind.config.js
+**/*v.bak
+**/*.bak
+**/*.orig
+**/*.swp
+**/*.swo

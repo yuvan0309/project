@@ -1,67 +1,61 @@
 #include<stdio.h>
-#define min(a,b) ((a)<(b)?(a):(b))
 
-int cost[10][10],n,dist[10];
+void dijkstra(int n, int s, int cost[][10]) {
+    int i, count, u, v, min, dis[10], visited[10];
 
-
-void dijkstra(int source){
-    int s[10]={0};
-    int min,w=0;
-    for(int i=0;i<n;i++){
-        dist[i]=cost[source][i];
+    for (i = 0;i < n;i++) {
+        dis[i] = cost[s][i];
+        visited[i] = 0;
     }
-    dist[source]=0;
-    s[source]=1;
-    for(int i=0;i<n-1;i++){
-        min=999;
-        for(int j=0;j<n;j++){
-            if(s[j]==0 && dist[j]<min){
-                min=dist[j];
-                w=j;
+    dis[s] = 0;
+    visited[s] = 1;
+    for (count = 0;count < n - 1;count++) {
+        min = 999;
+        for (i = 0;i < n;i++) {
+            if (visited[i] == 0 && dis[i] < min) {
+                min = dis[i];
+                u = i;
             }
         }
-        s[w]=1;
-        for(int v=0;v<n;v++){
-            if(s[v]==0 && cost[w][v]!=999){
-                dist[v]=min(dist[v],dist[w]+cost[w][v]);
-            }
+        visited[u] = 1;
+
+        for (v = 0;v < n;v++) {
+            if (visited[v] == 0 && cost[u][v] != 999 && dis[v] > (dis[u] + cost[u][v]))
+                dis[v] = dis[u] + cost[u][v];
         }
     }
+
+    printf("The shortest path is\n");
+    for (v = 0;v < n;v++)
+        printf("%d to %d is %d\n", s, v, dis[v]);
 }
 
-int main(){
-    int source;
-    printf("Enter number of vertices\n");
-    scanf("%d",&n);
-    printf("Enter cost matrix\n");
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            scanf("%d",&cost[i][j]);
-        }
-    }
-    printf("Enter source vertex\n");
-    scanf("%d",&source);
-    dijkstra(source);
-    printf("Shortest path from source vertex %d\n",source);
-    for(int i=0;i<n;i++){
-        printf("%d to %d = %d\n",source,i,dist[i]);
-    }
-    return 0;
+
+void main() {
+    int n, i, j, s, cost[10][10];
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    printf("Enter the cost matrix\n");
+    for (i = 0;i < n;i++)
+        for (j = 0;j < n;j++)
+            scanf("%d", &cost[i][j]);
+    printf("Enter the source vertex: ");
+    scanf("%d", &s);
+    dijkstra(n, s, cost);
 }
 // Output:
-// Enter number of vertices
-// 5
-// Enter cost matrix
+// Enter the number of vertices: 5
+// Enter the cost matrix
 // 0 10 999 999 999
 // 999 0 999 999 5
 // 999 999 0 3 999
 // 999 999 999 0 1
 // 999 999 999 999 0
-// Enter source vertex
-// 0
-// Shortest path from source vertex 0
-// 0 to 0 = 0
-// 0 to 1 = 10
-// 0 to 2 = 13
-// 0 to 3 = 16
-// 0 to 4 = 6
+// Enter the source vertex: 0
+// The shortest path is
+// 0 to 0 is 0
+// 0 to 1 is 10
+// 0 to 2 is 13
+// 0 to 3 is 14
+// 0 to 4 is 15
+// Time Complexity: O(n^2)

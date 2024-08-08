@@ -1,51 +1,55 @@
-#include <stdio.h>
-#include <limits.h>
+#include<stdio.h>
 
-int cost[10][10], n;
+void prims(int n, int s, int cost[][10]) {
+    int i, j, a, b, min, total_cost = 0, edge_count = 0;
+    int tree_vertex[10] = { 0 };
+    tree_vertex[s] = 1;
 
-void prim(int n, int cost[10][10]){
-    int vt[10] = {0};
-    int a = 0, b = 0, min, mincost = 0, ne = 0;
-    vt[0] = 1;
-    while (ne < n - 1){
-        min = INT_MAX;
-        for (int i = 0; i < n; i++){
-            if (vt[i] == 1)
-                for (int j = 0; j < n; j++)
-                    if (cost[i][j] < min && vt[j] == 0){
+    while (edge_count < n - 1) {
+        min = 999;
+        for (i = 0; i < n; i++) {
+            if (tree_vertex[i] == 1) {
+                for (j = 0; j < n; j++) {
+                    if (tree_vertex[j] == 0 && cost[i][j] < min) {
                         min = cost[i][j];
                         a = i;
                         b = j;
                     }
+                }
+            }
         }
-        printf("Edge from vertex %d to vertex %d and the cost %d\n", a, b, min);
-        vt[b] = 1;
-        ne++;
-        mincost += min;
-        cost[a][b] = cost[b][a] = INT_MAX;
+        printf("Edge from vertices %d to %d in %d\n", a, b, min);
+        tree_vertex[b] = 1;
+        total_cost += min;
+        edge_count++;
     }
-    printf("minimum spanning tree cost is %d", mincost);
+    printf("Min cost= %d\n", total_cost);
 }
 
-int main(){
-    printf("Enter the no. of vertices: ");
+void main() {
+    int n, s, cost[10][10];
+    printf("Enter the no.of vertices: ");
     scanf("%d", &n);
-    printf("Enter the cost matrix\n");
-    for (int i = 0; i < n; i++)
+    printf("Enter the cost matrix: \n");
+    for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++)
             scanf("%d", &cost[i][j]);
-    prim(n, cost);
-    return 0;
+    }
+    printf("Enter the source vertex: ");
+    scanf("%d", &s);
+    prims(n, s, cost);
 }
-//Enter the no. of vertices: 5
-//Enter the cost matrix
-//0 1 1 0 0
-//0 0 0 1 1
-//0 0 0 0 0
-//0 0 0 1 0
-//0 0 0 0 1
-//Edge from vertex 0 to vertex 1 and the cost 1
-//Edge from vertex 0 to vertex 2 and the cost 1
-//Edge from vertex 1 to vertex 3 and the cost 1
-//Edge from vertex 1 to vertex 4 and the cost 1
-//minimum spanning tree cost is 4
+// Output:
+// Enter the no.of vertices: 5
+// Enter the cost matrix:
+// 0 10 999 999 999
+// 999 0 999 999 5
+// 999 999 0 3 999
+// 999 999 999 0 1
+// 999 999 999 999 0
+// Enter the source vertex: 0
+// Edge from vertices 0 to 1 in 10
+// Edge from vertices 1 to 4 in 5
+// Edge from vertices 1 to 3 in 3
+// Edge from vertices 3 to 2 in 1
+// Min cost= 19

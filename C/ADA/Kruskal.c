@@ -1,18 +1,16 @@
-#include <stdio.h>
-#include <limits.h>
+#include<stdio.h>   
 
-void kruskal(int n, int cost[10][10]){
-    int par[n];
-    int a = 0, b = 0, u = 0, v = 0, min, mincost = 0, ne = 0;
-    for (int i = 0; i < n; i++)
+void kruskal(int cost[][10], int n) {
+    int par[n], a, b, u, v, i, j, min, mincost = 0, ec = 0;
+
+    for (i = 0; i < n; i++)
         par[i] = -1;
 
-    printf("the minimum spanning tree edges are...\n");
-    while (ne < n - 1){
-        min = INT_MAX;
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                if (cost[i][j] < min){
+    while (ec < n - 1) {
+        min = 999;
+        for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
+                if (cost[i][j] < min) {
                     min = cost[i][j];
                     a = u = i;
                     b = v = j;
@@ -22,38 +20,47 @@ void kruskal(int n, int cost[10][10]){
         while (par[v] != -1)
             v = par[v];
 
-        if (u != v){
-            printf("From vertex %d to vertex %d and the cost = %d\n", a, b, min);
+        if (u != v) {
+            printf("edge from %d to  %d with cost %d is selected\n", a, b, min);
             mincost += min;
-            par[v] = u;
-            ne++;
+            par[a] = b;
+            ec++;
         }
-        cost[a][b] = cost[b][a] = INT_MAX;
+        cost[a][b] = cost[b][a] = 999;
     }
-    printf("Cost of MST = %d\n", mincost);
+    printf("Minimum cost = %d\n", mincost);
 }
 
-int main(){
-    int n;
-    printf("Enter the no. of vertices:");
+int main() {
+    int n, cost[10][10], i, j;
+    printf("Enter the number of vertices: ");
     scanf("%d", &n);
-    int cost[10][10];
-    printf("Enter the cost matrix\n");
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
+
+    printf("Enter the cost matrix:\n");
+    for (i = 0; i < n; i++)
+        for (j = 0; j < n; j++)
             scanf("%d", &cost[i][j]);
-    kruskal(n, cost);
+
+    kruskal(cost, n);
     return 0;
 }
-//Enter the no. of vertices: 5
-//Enter the cost matrix
-//0 1 1 0 0
-//0 0 0 1 1
-//0 0 0 0 0
-//0 0 0 1 0
-//0 0 0 0 1
-//From vertex 0 to vertex 1 and the cost = 1
-//From vertex 0 to vertex 2 and the cost = 1
-//From vertex 1 to vertex 3 and the cost = 1
-//From vertex 1 to vertex 4 and the cost = 1
-//Cost of MST = 4
+// Output:
+// Enter the number of vertices: 5
+// Enter the cost matrix:
+// 0 10 999 999 999
+// 999 0 999 999 5
+// 999 999 0 3 999
+// 999 999 999 0 1
+// 999 999 999 999 0
+// edge from 3 to  4 with cost 1 is selected
+// edge from 2 to  3 with cost 3 is selected
+// edge from 1 to  4 with cost 5 is selected
+// edge from 0 to  1 with cost 10 is selected
+// Minimum cost = 19
+// Shortest path from source vertex 0
+// 0 to 0 = 0
+// 0 to 1 = 10
+// 0 to 2 = 13
+// 0 to 3 = 16
+// 0 to 4 = 6
+// Time Complexity: O(n^2)

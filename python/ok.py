@@ -1,43 +1,118 @@
-'''In the pre-smartphone era, most mobile phones with numeric keypads had a private dictionary of words to allow users to type messages quicker. On a typical phone of this type, each number key is assigned a subset of the alphabet {a,b,…,z}: 2 is assigned the subset {a,b,c}, 3 is assigned {d,e,f}, 4 is assigned {g,h,i}, 5 is assigned {j,k,l}, 6 is assigned {m,n,o}, 7 is assigned {p,q,r,s}, 8 is assigned {t,u,v} and 9 is assigned {w,x,y,z}.
+'''Indian National Olympiad in Informatics, 2016
 
-When the user types a sequence of numbers, this sequence is mapped to all possible words that can be constructed from the key assignment. For instance, if the user types 66, this could correspond to any one of the letter sequences "mm", "mn", "mo", "nm", "nn", "no", "om", "on" or "oo". These letter sequences are looked up in the dictionary stored in the phone and all matches are reported. For instance, if the phone's dictionary contains only "on" and "no" from this set of sequences, the user will be offered a choice of "on" or "no" to insert in the message. Similarly, the input 4663 might be interpreted as either "good" or "home". An input sequence may have a unique interpretation---for example, the only word in the dictionary matching the input 28 may be "at". Other sequences may not match any word in the dictionary—for instance, 99999.
+INOI 2016 Problem 1:
+Boing Inc, has N employees, numbered 1 … N. Every employee other than Mr. Hojo (the head of the company) has a manager (P[i] denotes the manager of employee i). Thus an employee may manage any number of other employees but he reports only to one manager, so that the organization forms a tree with Mr. Hojo at the root. We say that employee B is a subordinate of employee A if B appears in the subtree rooted at A.
 
-Your task is the following. Given the typical assignment from number keys to letters of the alphabet given above and given a dictionary of words, report the input sequence that matches the largest number of words in the dictionary. For example, if the dictionary consists of the words {at,on,good,no} then the answer is 66, because 66 matches both "on" and "no" while no other input matches more than one word in the dictionary. On the other hand, with the dictionary {at,on,good,no,home,gone}, the answer is 4663, because 4663 matches three words, "good", "home" and "gone" in the dictionary.
+Mr. Hojo, has hired Nikhil to analyze data about the employees to suggest how to identify faults in Boing Inc. Nikhil, who is just a clueless consultant, has decided to examine wealth disparity in the company. He has with him the net wealth of every employee (denoted A[i] for employee i). Note that this can be negative if the employee is in debt. He has already decided that he will present evidence that wealth falls rapidly as one goes down the organizational tree. He plans to identify a pair of employees i and j, j a subordinate of i, such that the wealth difference A[i] - A[j] is maximum. Your task is to help him do this.
+
+Suppose, Boing Inc has 4 employees and the parent (P[i]) and wealth information (A[i]) for each employee are as follows:
+
+i      1   2   3   4  
+A[i]   5  10   6  12
+P[i]   2  -1   4   2  
+P[2] = -1 indicates that employee 2 has no manager, so employee 2 is Mr. Hojo.
+
+In this case, the possible choices to consider are (2,1) with a difference in wealth of of 5, (2,3) with 4, (2,4) with -2 and (4,3) with 6. So the answer is 6.
 
 Solution hint
-For each word in the input, compute the number key sequence that creates it by inverting the mapping 2→{a,b,c}, 3→{d,e,f} etc. Store the number corresponding to the word in an array.
+The company hierarchy is a tree. Explore using DFS and incrementally keep track of the maximum difference. Your algorithm should work in time O(n+m).
 
-After reading all the input, sort the numbers in the array.
+Input Format
+There are three lines of input. The first line contains a single integer N, giving the number of employees in the company. The next line has N integers A[1], .., A[N] that give the wealth of the N employees. The third line has N integers P[1], P[2], .., P[N], where P[i] identifies the manager of employee i. If Mr. Hojo is employee i then, P[i] = -1, indicating that he has no manager.
 
-Input format
-The first line of input is an integer M, the number of words in the dictionary. This is followed by M lines of input. Each line contain one word from the dictionary, where a word is sequence of characters from the lowercase alphabet {a,b,c,…,z}.
+Output Format
+One integer, which is the needed answer.
 
-Note: Each word in the dictionary is, in general, an arbitrary sequence of letters from {a,b,c,…,z}. In particular, it is not assumed that the words stored in the dictionary are valid words in English or any other language.
+Constraints:
+-105 ≤ A[i] ≤ 105, for all i.
 
-Output format
-A single line containing the input sequence that matches the maximum number of words in the dictionary. If multiple input sequences qualify for the maximum number of matches, it suffices to report any one.
-
-Test data
-For all inputs, 1 ≤ M ≤ 100000. Each word in the dictionary is at most 8 characters long. In 50% of the inputs, 1 ≤ M ≤ 1000.
-
-Example
-Here is the sample input and output corresponding to the example discussed above.
-
-Sample input 1
+Sample Input
 4
-at
-on
-good
-no
-Sample output 1
-66
-Sample input 2
+5 10 6 12
+2 -1 4 2
+Sample Output
+6'''
+# Python 3
+def word_to_num(word):
+    # Mapping from letters to numbers
+    letter_to_num = {'a': '2', 'b': '2', 'c': '2', 'd': '3', 'e': '3', 'f': '3',
+                     'g': '4', 'h': '4', 'i': '4', 'j': '5', 'k': '5', 'l': '5',
+                     'm': '6', 'n': '6', 'o': '6', 'p': '7', 'q': '7', 'r': '7', 's': '7',
+                     't': '8', 'u': '8', 'v': '8', 'w': '9', 'x': '9', 'y': '9', 'z': '9'}
+
+    num = ''.join(letter_to_num[c] for c in word)
+    return num
+
+def main():
+    M = int(input())
+
+    # List to store number sequences
+    num_sequences = []
+
+    # Convert each word to a number sequence
+    for _ in range(M):
+        word = input().strip()
+        num_sequences.append(word_to_num(word))
+
+    # Sort the number sequences
+    num_sequences.sort()
+
+    # Find the number sequence with the maximum count
+    max_sequence = num_sequences[0]
+    max_count = num_sequences.count(max_sequence)
+
+    for num in num_sequences:
+        current_count = num_sequences.count(num)
+        if current_count > max_count:
+            max_sequence = num
+            max_count = current_count
+
+    print(max_sequence)
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''Sample Test Cases
+Input	Output
+Test Case 1	
+4
+5 10 6 12
+2 -1 4 2
 6
-at
-on
-good
-no
-home
-gone
-Sample output 2
-4663'''
+Test Case 2	
+10
+-84597717 6135976 -55501214 -97723328 -89733556 -91129590 -74195203 74072104 71058203 11945767
+9 3 7 7 7 4 -1 9 5 9
+155655920
+Test Case 3	
+500
+-84597717 6135976 -55501214 -97723328 -89733556 -91129590 -74195203 74072104 71058203 11945767 -26691609 32134125 17110292 20541911 59770065 -43881514 -74415270 -32777142 21027004 5676358 -11950372 -71533396 40672363 -2510288 -16058668 99370523 41629924 -67978804 -61927849 99423588 27043274 -18582067 -98355338 36407773 39408798 -82659275 91406453 -90021118 4830917 -48842127 59503834 -16156235 -32233670 64906722 -25172126 20892179 12668156 58706690 95866203 -35438582 89714968 -86634171 -77323275 65716608 -21703067 -8076523 15287757 34857032 -60884171 46715692 16610435 -43304444 7082117 -45334832 2158343 90739693 -3904017 25511103 6545524 68414230 58302818 -61971865 -53239885 -73628375 1625397 57729472 -87951938 52547171 8077796 -3015120 31171790 54625823 76161423 73852220 23881009 -15988284 71273576 8290775 79821794 -96186636 -54779590 -52199397 7466396 -42798329 -55144944 30813078 -97117384 -26425288 -70608573 8502126 95060330 -29189781 -7483306 -48396485 -71916080 73785038 -98499228 74459944 -83247376 -26542562 -20620843 29741800 95310914 -43533405 -8960968 12925440 81558689 75387950 84628525 81379842 68367555 88273020 -33665686 77865152 -85023984 -60338129 -66796100 -75899426 -98763391 -80542872 -23984735 11745656 -40616280 99618165 63434415 86822155 -41195631 3701498 42860884 96807127 91007111 86046067 99741557 -72426597 -86411070 -6229305 3986900 -20971974 10141314 -74880731 59137265 -57894072 -41830805 80226960 -48194966 -65092930 -86695714 49521660 18117235 -37458590 -32466844 -19956855 -66695604 -33573297 -66551715 55445394 22673285 -78538248 79967782 49195780 88315667 -72397571 70460453 -66481398 1416606 98138740 -52660630 70337195 59024424 -53742271 -64880893 3781490 27559876 52058268 -46117693 40723152 20575504 -14477486 40072699 -84646392 -89931619 -75372755 -53397100 19497601 -2136814 -43030409 -34943910 -7088257 34164384 -22547817 65433320 -14715436 81424438 82077528 -15184553 15502814 -2025423 -52741166 -89101892 20360420 -45478638 -63289159 62719101 95442708 -82040315 29681935 86294240 -85998832 78623041 41732186 -87316652 51440138 -48110568 -97280972 28936443 -86000285 -86064967 59870376 -72183233 50700299 -30852727 -54213555 77295979 -37382016 -60805119 54759359 -36349201 -89980219 15413546 -79221349 9935327 -23797817 -67027450 -49817107 44014022 98466976 33416014 44530088 97925665 -71663759 -13542678 -11885300 37655361 -91900768 94159455 49935270 -88860123 57644195 -9917652 -131000 -60495081 -33831169 -56311253 9655834 -65306107 -18000447 -12775456 -86289784 84267639 56016098 -1829040 -40070994 32200827 -4125854 -57692863 -53599273 -7887576 64615412 -70824445 -70952120 60623585 72528456 18838313 -28862605 89525163 39082164 -43346443 87076112 -29384719 -75214869 -47975193 -57781900 68760956 -72577973 1701304 33265071 32482659 40756677 -64611765 59459671 7014358 50523877 -30211366 83457192 -81318328 99190041 -87486202 -37672664 31885625 -53381678 -6297101 944564 -92440276 -95133480 -63836898 16221715 5651357 -26244804 56861954 -47975182 20890430 -19990176 -56653536 -69656536 -25462596 -27158836 62201337 23055831 22321015 16726399 -25298833 -62041916 -52210080 66812914 -3021462 -99768689 -14469690 -84804898 34970824 -64695133 -82532394 92193118 24990116 -4408089 -85954632 -38501791 59115350 94720028 -41346799 72913836 -81353783 -20796527 -97474136 71979446 65095605 92878380 -81044921 97394476 5353191 5862541 -75453426 7594033 -97424412 98410578 -68879749 35655845 -49039685 98573379 14570170 78958780 -59743776 -32326520 9425029 99340107 31523559 -58602417 2083352 46578507 21026885 -90795348 -21346244 -92656539 -87936312 -16899749 -66815488 -34688630 -72728435 72380707 -49252518 -1964432 -29439834 -92785809 -31796046 -83547324 89386146 47762312 -5826610 -81118319 36681514 -48785777 98909344 -35089011 55522304 58823989 -79190532 -90583646 26388017 -45186299 -27766515 63523368 8109040 -27885051 -4220902 60214946 12054184 49432164 50024250 -87634052 44507267 -15354123 -59762835 37360910 94339970 96851289 -63797206 -39259145 -24176708 -38358270 -81180313 26849147 -12606684 -9230770 -65835233 25726609 95839236 -86556671 -52051247 46785669 58981164 21014074 -56527986 47200988 32450162 66651425 -36648846 -11897717 22298255 69435586 17993308 -98475988 -88759300 -74467362 13982986 39718136 69922735 775265 -26038175 12188161 -86051885 -29667931 72340157 -76989008 -62694135 35288273 -94103161 -99552735 23829666 -28705753 305872 -15809548 -86705219 1712074 69593813 76264478 92739821 -30862801 14430 64751135 -59309149 95912382 -86320043 -93823890 74517958 5511480 -48502651 -2601557 -42938588 467635 18213866 20694471 87697269 -81066410 64441827 -2936636 -98373327 -82196032 -99346881 99875824 3582309 6237789
+243 435 266 360 162 480 84 37 201 143 400 343 73 114 284 23 430 344 275 65 361 439 314 416 402 164 175 382 283 319 228 357 414 45 491 2 135 467 460 430 436 412 438 187 278 185 318 209 99 350 87 417 493 173 431 158 115 360 436 209 304 434 77 383 70 126 456 467 132 35 23 464 358 53 135 317 128 271 337 308 100 36 485 262 77 327 41 144 196 416 356 440 343 135 217 101 41 162 348 99 368 431 166 161 253 255 313 144 477 434 365 457 488 500 374 326 436 378 71 349 414 106 211 498 217 268 106 467 100 235 166 470 125 85 430 207 390 16 12 135 481 313 237 356 383 135 394 99 319 173 311 184 289 184 467 207 261 42 83 39 361 75 410 2 71 414 253 188 135 308 188 294 185 161 435 242 2 48 411 130 282 39 350 144 368 290 357 211 62 242 140 368 491 39 135 254 162 188 88 435 407 416 453 57 271 200 211 314 491 240 77 308 369 348 478 319 338 290 51 460 216 420 357 389 239 75 326 304 161 465 403 411 102 169 20 3 496 38 237 65 211 458 35 276 411 39 200 323 268 278 280 430 91 159 41 79 312 396 148 311 -1 430 112 460 338 341 211 68 158 69 480 147 205 466 68 350 226 140 51 344 177 295 264 142 135 157 36 292 214 480 27 12 24 402 348 71 158 103 67 226 436 460 175 289 462 271 311 200 111 134 6 48 93 338 338 297 425 125 68 326 300 48 73 99 13 166 20 464 262 24 39 468 281 182 472 23 162 261 226 347 350 317 470 357 177 435 407 435 338 174 25 389 275 146 128 361 75 77 182 348 379 349 93 157 211 371 178 4 277 308 303 70 306 306 49 491 95 297 262 295 427 48 456 198 417 368 425 361 495 19 32 467 126 199 162 498 6 478 249 434 370 23 456 454 407 407 12 116 337 268 60 214 475 135 208 148 357 127 131 188 422 24 121 362 91 491 141 412 25 491 253 358 151 217 261 162 219 228 357 266 390 453 192 342 44 170 244 341 327 439 425 97 148 267 491 331 140 289 419 361 53 417 134 132 41 128 261 455 252 174 283 39 249 438 314 226 207 39 414 209 174 127 317 350 259 297 226 357 104 65 261 128 481 174 157 48 362 101 481 60
+194602627
+'''

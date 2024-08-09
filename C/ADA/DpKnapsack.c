@@ -62,4 +62,3 @@ int main(){
 //SELECTED OBJECTS ARE
 //2
 //3
-//4

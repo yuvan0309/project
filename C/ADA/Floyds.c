@@ -34,3 +34,17 @@ int main(){
         printf("\n");
     }
 }
+// Output:
+// Enter number of vertices
+// 4
+// Enter cost matrix
+// 0 1 999 999
+// 999 0 1 999
+// 999 999 0 1
+// 1 999 999 0
+// Shortest path matrix
+// 0 1 2 3
+// 999 0 1 2
+// 999 999 0 1
+// 1 2 3 0
+// Time Complexity: O(n^3)

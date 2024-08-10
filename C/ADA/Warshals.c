@@ -30,3 +30,17 @@ void main(){
         printf("\n");
     }
 }
+// Output:
+// Enter number of vertices
+// 4
+// Enter adjacency matrix
+// 0 1 0 0
+// 0 0 0 1
+// 0 0 0 0
+// 1 0 1 0
+// Transitive closure
+// 1 1 1 1
+// 1 1 1 1
+// 0 0 0 0
+// 1 1 1 1
+// Time Complexity: O(n^3)

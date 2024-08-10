@@ -39,3 +39,12 @@ int main() {
         printf("No solution exists\n");
     return 0;
 }
+// Output:
+// Enter the number of elements: 5
+// Enter the elements in ascending order:
+// 1 2 3 4 5
+// Enter the sum: 7
+// Subset 1:
+// 2	5
+// Subset 2:
+// 1	3	4

@@ -16,7 +16,7 @@ class NumericInput:
         return self.Value
 
 if __name__ == '__main__':
-    input = NumericInput()
+    input = TextInput()
     input.add("6")
     input.add("b")
     input.add("9")

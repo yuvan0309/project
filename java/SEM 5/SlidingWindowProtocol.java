@@ -71,7 +71,4 @@ public class SlidingWindowProtocol {
  * Received ACK for packet: 1
  * Received ACK for packet: 2
  * Received ACK for packet: 3
- * Sending packet: Packet{seqNum=4, data=E}
- * Sending packet: Packet{seqNum=5, data=F}
- * Sending packet: Packet{seqNum=6, data=G}
  */

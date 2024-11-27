@@ -74,3 +74,17 @@ public class BellmanFord {
         scanner.close();
     }
 }
+// output
+// Enter the number of vertices
+// 5
+// Enter the adjacency matrix
+// 0 6 0 7 0
+// 0 0 5 8 -4
+// 0 -2 0 0 0
+// 0 0 -3 0 9
+// 2 0 7 0 0
+// Enter the src vertex
+// 1
+// Enter the dest vertex:
+// 4
+// Distance of src 1 to 4 is 2

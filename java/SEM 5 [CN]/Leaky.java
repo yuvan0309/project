@@ -1,43 +1,38 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class Leaky {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter bucket size: ");
-        int bucketSize = sc.nextInt();
-        System.out.print("Enter number of groups: ");
-        int numGroups = sc.nextInt();
+        System.out.print("Enter the bucket size: ");
+        int bucket = sc.nextInt(), packets = 0, bandwidth = 0;
 
-        int totalPackets = 0, totalBandwidth = 0;
-
-        for (int i = 0; i < numGroups; i++) {
-            System.out.print("Packets for group " + (i + 1) + ": ");
-            int packets = sc.nextInt();
-            System.out.print("Input bandwidth for group " + (i + 1) + ": ");
-            int bandwidth = sc.nextInt();
-
-            while (totalPackets + packets > bucketSize) {
-                System.out.println("Bucket Overflow. Enter value <= " + (bucketSize - totalPackets));
-                packets = sc.nextInt();
+        System.out.print("Enter the no of groups: ");
+        for (int groups = sc.nextInt(), g = 1; groups-- > 0; g++) {
+            System.out.print("Enter the no of packets for group" + g + ": ");
+            int p = sc.nextInt();
+            System.out.print("Enter the input bandwidth for the group" + g + ": ");
+            int b = sc.nextInt();
+            while (packets + p > bucket) {
+                System.out.println("Bucket Overflow. Enter value <= " + (bucket - packets));
+                p = sc.nextInt();
             }
-
-            totalPackets += packets;
-            totalBandwidth += packets * bandwidth;
+            packets += p;
+            bandwidth += p * b;
         }
 
-        System.out.println("Total required bandwidth: " + totalBandwidth);
-        System.out.print("Enter output bandwidth: ");
-        int outBandwidth = sc.nextInt();
+        System.out.println("The total required bandwidth is " + bandwidth);
+        System.out.print("Enter the output bandwidth: ");
+        int out = sc.nextInt();
 
-        while (totalPackets > 0 && totalBandwidth > 0) {
-            System.out.println("Data sent. " + (--totalPackets) + " packets remaining.");
-            totalBandwidth -= outBandwidth;
-            System.out.println("Remaining Bandwidth: " + Math.max(totalBandwidth, 0));
+        while (packets > 0 && bandwidth > 0) {
+            System.out.println("Data sent");
+            packets--;
+            bandwidth -= out;
+            System.out.println(packets + " packets remaining");
+            System.out.println("Remaining Bandwidth: " + Math.max(bandwidth, 0));
         }
 
-        if (totalPackets > 0) {
-            System.out.println(totalPackets + " packet(s) discarded due to insufficient bandwidth.");
-        }
+        if (packets > 0) System.out.println(packets + " packets discarded due to insufficient bandwidth");
         sc.close();
     }
 }

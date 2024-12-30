@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQuery Script Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    p, ul {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .animated-div {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+      margin-top: 20px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>jQuery Script Example</h1>
+
+    <h2>a. Append Content</h2>
+    <p id="paragraph">This is a sample paragraph.</p>
+    <ul id="list">
+      <li>List item 1</li>
+      <li>List item 2</li>
+    </ul>
+    <button id="appendContent">Append Content</button>
+
+    <h2>b. Animate Element</h2>
+    <button id="animateElement">Animate</button>
+    <div class="animated-div" id="animateDiv"></div>
+
+    <h2>c. Change Div Color</h2>
+    <button id="changeColor">Change Color</button>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      // a. Append content at the end of the paragraph and list
+      $('#appendContent').click(function () {
+        $('#paragraph').append(' Appended text.');
+        $('#list').append('<li>Appended list item</li>');
+      });
+
+      // b. Animate the element with CSS style using animate()
+      $('#animateElement').click(function () {
+        $('#animateDiv').animate({
+          width: '200px',
+          height: '200px',
+          opacity: 0.5
+        }, 1000);
+      });
+
+      // c. Change the color of the animated div 
+      $('#changeColor').click(function () {
+        $('#animateDiv').animate({
+          width: '200px', // Include some numeric property for the animation
+          height: '200px' // Include some numeric property for the animation
+        }, {
+          duration: 1000,
+          step: function(now, fx) {
+            $(this).css("background-color", "orange");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

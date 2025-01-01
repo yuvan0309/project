@@ -63,7 +63,7 @@ a {
     color: #ea0e4c;
 }
 
-/* Pseudo-classe SELECTOR */
+/* Pseudo-class SELECTOR */
 a:hover {
     color: #6200ee;
     text-decoration: underline;

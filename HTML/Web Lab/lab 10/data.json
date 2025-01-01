@@ -1,7 +1,7 @@
 { 
 "employees": 
 [ {"name": "Alice", "age": 28}, 
-  	  {"name": "Bob", "age": 32}, 
-  	  {"name": "Charlie", "age": 25} 
+	{"name": "Bob", "age": 32}, 
+  	{"name": "Charlie", "age": 25}
 ] 
 }

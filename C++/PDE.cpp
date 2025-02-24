@@ -5,7 +5,7 @@
 const int GRID_SIZE = 50;
 const double DELTA_T = 0.01;
 const double DIFFUSION_COEFF = 0.1;
-const double INITIAL_PRESSURE = 1013.0;
+const double INITIAL_PRESSURE = 1013.0;//(psi)
 const double INITIAL_AQI = 50.0;
 
 struct Cell {
@@ -72,3 +72,4 @@ int main() {
 
     return 0;
 }
+

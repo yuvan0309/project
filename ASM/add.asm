@@ -7,4 +7,3 @@
 XS b XS
 	END
 // Output:
-// SPIM Version 9.1.20 of August 1, 2013
